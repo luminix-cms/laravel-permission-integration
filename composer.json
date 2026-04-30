@@ -1,0 +1,60 @@
+{
+    "name": "luminix/laravel-permission-integration",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Luminix\\LaravelPermissionIntegration\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bruno Polo",
+            "email": "brunopolo@poli.ufrj.br"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0",
+        "illuminate/database": "^11.0",
+        "luminix/backend": "v1.x-dev",
+        "spatie/laravel-permission": "^6.24"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~11.0",
+        "orchestra/testbench": "^9.0",
+        "nunomaduro/collision": "^8.0"
+    },
+    "scripts": {
+        "test": "@php vendor/bin/testbench package:test",
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyse"
+        ],
+        "artisan": "@php vendor/bin/testbench"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Luminix\\LaravelPermissionIntegration\\PermissionServiceProvider"
+            ]
+        }
+    }
+}
