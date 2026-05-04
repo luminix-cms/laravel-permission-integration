@@ -79,14 +79,14 @@ Os modelos `Role` e `Permission` estendem os modelos padrão do Spatie e adicion
 
 Ao salvar uma função (role) com um array de permissões no corpo da requisição, o observador sincroniza automaticamente as permissões associadas:
 
-> **Observação:** a associação de permissões só estará disponível para usuários que possuam autorização para `create-role` (ao criar) ou `edit-role` (ao atualizar).
+> **Observação:** a associação de permissões só estará disponível para usuários que possuam autorização para `create-role` (ao criar) ou `update-role` (ao atualizar).
 
 ```json
 POST /luminix-api/roles
 {
     "name": "editor",
     "guard_name": "web",
-    "permissions": ["create-post", "edit-post"]
+    "permissions": ["create-post", "update-post"]
 }
 ```
 
