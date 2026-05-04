@@ -22,6 +22,13 @@ class PermissionValidator extends Validator
 
     public function update($item): array
     {
-        return $this->store();
+        return [
+            'name' => 'sometimes|string|max:255',
+            'guard_name' => [
+                'sometimes',
+                'string',
+                Rule::in(Integration::getAvailableGuards())
+            ],
+        ];
     }
 }

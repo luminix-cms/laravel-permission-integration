@@ -2,6 +2,7 @@
 
 namespace Luminix\LaravelPermissionIntegration\Validators;
 
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Luminix\Backend\Validation\Validator;
 use Luminix\LaravelPermissionIntegration\Facades\Integration;
@@ -18,12 +19,21 @@ class RoleValidator extends Validator
                 Rule::in(Integration::getAvailableGuards())
             ],
             'permissions' => 'sometimes|array',
-            'permissions.*.name' => 'string|exists:permissions,name'
+            'permissions.*' => 'string|exists:permissions,name'
         ];
     }
 
     public function update($item): array
     {
-        return $this->store();
+        return [
+            'name' => 'sometimes|string|max:255',
+            'guard_name' => [
+                'sometimes',
+                'string',
+                Rule::in(Integration::getAvailableGuards())
+            ],
+            'permissions' => 'sometimes|array',
+            'permissions.*' => 'string|exists:permissions,name'
+        ];
     }
 }
