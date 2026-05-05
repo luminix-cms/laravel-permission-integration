@@ -17,7 +17,7 @@ composer require luminix/laravel-permission-integration
 
 ## Configuração
 
-### 1. Registrar os modelos na configuração de permissões
+### Registrar os modelos na configuração de permissões
 
 Após instalar o pacote, você precisa informar ao Spatie Laravel Permission que deve utilizar os modelos fornecidos por este pacote. Publique o arquivo de configuração do Spatie (caso ainda não o tenha feito) e registre os modelos:
 
@@ -48,12 +48,6 @@ return [
 ```
 
 > **Importante:** sem este passo, o pacote não funcionará corretamente — os modelos padrão do Spatie serão utilizados no lugar dos modelos estendidos por esta integração.
-
-### 2. Executar as migrações
-
-```bash
-php artisan migrate
-```
 
 ## Funcionalidades
 
@@ -122,7 +116,7 @@ Em seguida, utilize normalmente:
 ```php
 $user->assignRole('editor');
 $user->hasRole('editor');
-$user->can('editar posts');
+$user->can('udpate-post');
 ```
 
 ## Licença
