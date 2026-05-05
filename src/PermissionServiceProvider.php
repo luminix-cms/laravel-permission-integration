@@ -11,19 +11,22 @@ use Luminix\LaravelPermissionIntegration\Services\IntegrationService;
 
 class PermissionServiceProvider extends ServiceProvider
 {
-    public function boot()
+
+    public function register()
     {
 
         $this->makeLuminixFindModels();
 
-    }
+        $this->loadTranslations();
 
-    public function register()
-    {
         $this->app->bind(IntegrationService::class, function () {
             return new IntegrationService();
         });
 
+    }
+
+    public function boot()
+    {
 
     }
 
@@ -52,5 +55,12 @@ class PermissionServiceProvider extends ServiceProvider
         if (!empty($toAdd)) {
             ModelFinder::addModels($toAdd);
         }
+    }
+
+    protected function loadTranslations()
+    {
+
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../lang');
+
     }
 }
