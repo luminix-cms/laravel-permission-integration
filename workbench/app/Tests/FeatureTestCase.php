@@ -20,6 +20,12 @@ class FeatureTestCase extends TestCase
     {
         $app->config->set('permission.models.role', Role::class);
         $app->config->set('permission.models.permission', Permission::class);
+
+        $app['config']->set('luminix.backend.models.include', [
+            'Workbench\App\Models\User',
+        ]);
+
+        $app['config']->set('auth', require __DIR__.'/../../config/auth.ci.php');
     }
 
     protected function setUp(): void

@@ -74,7 +74,7 @@ class LuminixApiPermissionsTest extends FeatureTestCase
             'web' => ['driver' => 'session'],
         ]]);
 
-        $modelsInFinder = 2; // role + permission
+        $modelsInFinder = 3; // user + role + permission
         $operations = 4;     // create, read, update, delete
 
         $this->artisan('luminix:api-permissions', ['--guard' => ['web']])->assertExitCode(0);

@@ -122,6 +122,10 @@ $guards = Integration::getAvailableGuards();
 
 O `PermissionServiceProvider` registra automaticamente os modelos `Role` e `Permission` no `ModelFinder` do Luminix Backend, tornando-os disponíveis para as operações CRUD geradas pelo framework.
 
+## Limitações
+
+O pacote ainda não está preparado para lidar com as nuances de um sistema que usa múltiplas guardas. Por enquanto, é recomendado usar apenas em projetos onde apenas uma única guarda é usada.
+
 ## Comandos
 
 ### `luminix:api-permissions`
