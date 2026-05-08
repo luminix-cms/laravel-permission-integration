@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Luminix\Backend\Services\ModelFinder;
 use Luminix\Frontend\Services\BootService;
+use Luminix\LaravelPermissionIntegration\Commands\LuminixApiPermissions;
 use Luminix\LaravelPermissionIntegration\Facades\Integration;
 use Luminix\LaravelPermissionIntegration\Models\Permission;
 use Luminix\LaravelPermissionIntegration\Models\Role;
@@ -16,66 +17,35 @@ class PermissionServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->bindPackageServices();
-        $this->makeLuminixFindModels();
-        $this->loadTranslations();
+        $this->setupPackage();
+
+        Integration::makeLuminixFindModels();
     }
 
     public function boot()
     {
-        $this->addFrontendConfigurations();
+        Integration::addFrontendConfigurations();
     }
 
-    protected function bindPackageServices()
+    protected function setupPackage()
     {
-        $this->app->bind(IntegrationService::class, function () {
+
+        $this->app->singleton(IntegrationService::class, function () {
             return new IntegrationService();
         });
 
-    }
-
-    protected function makeLuminixFindModels()
-    {
-
-        $roleClass = config('permission.models.role', Role::class);
-        $permissionClass = config('permission.models.permission', Permission::class);
-
-        $namespace = App::getNamespace() . str_replace(
-            '/',
-            '\\',
-            config('luminix.backend.models.directory', 'Models')
-        );
-
-        $toAdd = [];
-
-        if (!str_starts_with($roleClass, $namespace)) {
-            $toAdd[] = $roleClass;
-        }
-
-        if (!str_starts_with($permissionClass, $namespace)) {
-            $toAdd[] = $permissionClass;
-        }
-
-        if (!empty($toAdd)) {
-            ModelFinder::addModels($toAdd);
-        }
-    }
-
-    protected function loadTranslations()
-    {
-
         $this->loadJsonTranslationsFrom(__DIR__ . '/../lang');
 
+        $this->commands([
+            LuminixApiPermissions::class,
+        ]);
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/permission.php', 'luminix.permission');
+
+        $this->publishes([
+            __DIR__ . '/../config/permission.php' => config_path('luminix/permission.php'),
+        ], 'luminix-config');
+
     }
 
-    protected function addFrontendConfigurations()
-    {
-        BootService::reducer('wireConfig', fn ($config) => [
-            ...$config,
-            'permission' => [
-                ...($config['permission'] ?? []),
-                'available_guards' => Integration::getAvailableGuards(),
-            ]
-        ]);
-    }
 }

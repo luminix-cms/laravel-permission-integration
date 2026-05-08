@@ -8,6 +8,8 @@ use Luminix\LaravelPermissionIntegration\Services\IntegrationService;
 /**
  * 
  * @method static array getAvailableGuards()
+ * @method static void makeLuminixFindModels()
+ * @method static void addFrontendConfigurations()
  * 
  */
 class Integration extends Facade

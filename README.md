@@ -49,6 +49,16 @@ return [
 
 > **Importante:** sem este passo, o pacote não funcionará corretamente — os modelos padrão do Spatie serão utilizados no lugar dos modelos estendidos por esta integração.
 
+### Publicar a configuração do pacote
+
+Para personalizar o comportamento do pacote, publique o arquivo de configuração:
+
+```bash
+php artisan vendor:publish --tag=luminix-config
+```
+
+Isso cria o arquivo `config/luminix/permission.php`:
+
 ## Funcionalidades
 
 ### Modelos estendidos
@@ -69,7 +79,7 @@ Os modelos `Role` e `Permission` estendem os modelos padrão do Spatie e adicion
 
 - Valida os campos `name` e `guard_name` ao criar ou atualizar
 
-### Sincronização de permissões
+### Sincronização de permissões em roles
 
 Ao salvar uma função (role) com um array de permissões no corpo da requisição, o observador sincroniza automaticamente as permissões associadas:
 
@@ -84,6 +94,20 @@ POST /luminix-api/roles
 }
 ```
 
+### Sincronização de roles em modelos de usuário
+
+Para modelos que utilizam a trait `HasRoles` do Spatie, as roles serão sincronizadas automaticamente:
+
+```json
+PUT /luminix-api/users/1
+{
+    "name": "João",
+    "roles": ["editor", "moderador"]
+}
+```
+
+> **Observação:** a sincronização só ocorre para usuários que possuam a permissão definida em `luminix.permission.permission_to_set_roles` (padrão: `set-roles`). Defina como `null` para permitir a todos.
+
 ### Guards
 
 O campo `guard_name` é validado contra os guards configurados em `config/auth.php`. Para acessar os guards disponíveis programaticamente:
@@ -97,6 +121,33 @@ $guards = Integration::getAvailableGuards();
 ### Descoberta de modelos
 
 O `PermissionServiceProvider` registra automaticamente os modelos `Role` e `Permission` no `ModelFinder` do Luminix Backend, tornando-os disponíveis para as operações CRUD geradas pelo framework.
+
+## Comandos
+
+### `luminix:api-permissions`
+
+Cria as permissões CRUD para todos os modelos descobertos pelo Luminix Backend. Use este comando após adicionar novos modelos à aplicação para garantir que as permissões correspondentes existam no banco de dados.
+
+```bash
+php artisan luminix:api-permissions --guard=web
+```
+
+O comando aceita múltiplos guards:
+
+```bash
+php artisan luminix:api-permissions --guard=web --guard=api
+```
+
+Para cada modelo encontrado, o comando criará as permissões `create-{model}`, `read-{model}`, `update-{model}` e `delete-{model}`. O comando é idempotente — executá-lo múltiplas vezes não cria duplicatas.
+
+**Exemplo** — para uma aplicação com os modelos `User`, `Post`, `Role` e `Permission`, o comando criaria:
+
+```
+create-user, read-user, update-user, delete-user
+create-post, read-post, update-post, delete-post
+create-role, read-role, update-role, delete-role
+create-permission, read-permission, update-permission, delete-permission
+```
 
 ## Uso com usuários
 
@@ -116,7 +167,7 @@ Em seguida, utilize normalmente:
 ```php
 $user->assignRole('editor');
 $user->hasRole('editor');
-$user->can('udpate-post');
+$user->can('update-post');
 ```
 
 ## Licença

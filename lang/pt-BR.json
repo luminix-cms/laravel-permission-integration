@@ -1,7 +1,14 @@
 {
+    "Assign Permissions": "Atribuir Permissões",
+    "create": "criação",
+    "delete": "exclusão",
     "Guard name": "Nome do Guard",
+    "Luminix API Permissions": "Permissões da API Luminix",
+    "Model": "Modelo",
     "Permission": "Permissão",
     "Permissions": "Permissões",
+    "read": "leitura",
     "Role": "Função",
-    "Roles": "Funções"
+    "Roles": "Funções",
+    "update": "atualização"
 }
