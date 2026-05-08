@@ -9,6 +9,7 @@ use Luminix\Backend\Facades\Finder;
 use Luminix\Backend\Services\ModelFinder;
 use Luminix\Frontend\Services\BootService;
 use Luminix\Frontend\Services\ManifestService;
+use Luminix\LaravelPermissionIntegration\Facades\Integration;
 use Luminix\LaravelPermissionIntegration\Models\Permission;
 use Luminix\LaravelPermissionIntegration\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -55,7 +56,7 @@ class IntegrationService
             ...$config,
             'permission' => [
                 ...($config['permission'] ?? []),
-                'available_guards' => $this->getAvailableGuards(),
+                'available_guards' => Integration::getAvailableGuards(),
             ],
         ]);
 
