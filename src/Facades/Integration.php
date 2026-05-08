@@ -10,6 +10,7 @@ use Luminix\LaravelPermissionIntegration\Services\IntegrationService;
  * @method static array getAvailableGuards()
  * @method static void makeLuminixFindModels()
  * @method static void addFrontendConfigurations()
+ * @method static void setRoleableModelsApis()
  * 
  */
 class Integration extends Facade

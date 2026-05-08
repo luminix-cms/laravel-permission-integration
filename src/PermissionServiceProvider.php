@@ -25,6 +25,7 @@ class PermissionServiceProvider extends ServiceProvider
     public function boot()
     {
         Integration::addFrontendConfigurations();
+        Integration::setRoleableModelsApis();
     }
 
     protected function setupPackage()

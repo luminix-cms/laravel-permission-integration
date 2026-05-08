@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Luminix\Backend\Facades\Finder;
 use Luminix\Backend\Services\ModelFinder;
 use Luminix\Frontend\Services\BootService;
+use Luminix\Frontend\Services\ManifestService;
 use Luminix\LaravelPermissionIntegration\Models\Permission;
 use Luminix\LaravelPermissionIntegration\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -74,6 +75,11 @@ class IntegrationService
                     if (request()->has('roles')) {
                         $model->syncRoles(...request()->json('roles'));
                     }
+                });
+
+                ManifestService::reducer("model" . class_basename($Model) . 'Manifest', function ($manifest) {
+                    $manifest['has_roles'] = true;
+                    return $manifest;
                 });
             }
         });
