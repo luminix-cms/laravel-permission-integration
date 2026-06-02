@@ -23,8 +23,8 @@
         "php": "^8.2",
         "illuminate/support": "^11.0",
         "illuminate/database": "^11.0",
-        "luminix/backend": "v1.x-dev",
-        "luminix/frontend": "v1.x-dev",
+        "luminix/backend": "^1.0",
+        "luminix/frontend": "^1.0",
         "spatie/laravel-permission": "^6.24"
     },
     "require-dev": {
