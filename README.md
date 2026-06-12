@@ -4,8 +4,8 @@ Integração do pacote [Spatie Laravel Permission](https://github.com/spatie/lar
 
 ## Requisitos
 
-- PHP 8.2+
-- Laravel 11.x
+- PHP 8.2+ (PHP 8.3+ para Laravel 13)
+- Laravel 11.x, 12.x ou 13.x
 - [`spatie/laravel-permission`](https://github.com/spatie/laravel-permission) ^6.24
 - [`luminix/backend`](https://github.com/luminix-cms/backend)
 
